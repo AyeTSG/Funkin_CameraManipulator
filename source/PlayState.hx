@@ -90,6 +90,7 @@ class PlayState extends MusicBeatState
 	private var iconP1:HealthIcon;
 	private var iconP2:HealthIcon;
 	private var camHUD:FlxCamera;
+	private var tsgHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
@@ -142,10 +143,13 @@ class PlayState extends MusicBeatState
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
+		tsgHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+		tsgHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(tsgHUD);
 
 		FlxCamera.defaultCameras = [camGame];
 
@@ -759,7 +763,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
-		versionShit.cameras = [camHUD];
+		versionShit.cameras = [tsgHUD];
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -1344,6 +1348,12 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
+		if (FlxG.keys.justPressed.H)
+			if (camHUD.visible)
+				camHUD.visible = false;
+			else
+				camHUD.visible = true;
+
 		if (FlxG.keys.justPressed.E)
 			FlxG.camera.zoom += 0.25;
 		if (FlxG.keys.justPressed.Q)
@@ -1400,6 +1410,9 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
+			if (!camHUD.visible)
+				camHUD.visible = true;
+
 			persistentUpdate = false;
 			persistentDraw = true;
 			paused = true;
